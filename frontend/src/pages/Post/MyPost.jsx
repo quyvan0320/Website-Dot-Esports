@@ -39,45 +39,53 @@ const MyPost = () => {
 
         <div className="max-w-screen-lg mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
-            {data?.posts.map((post, index) => (
-              <div key={post?._id} className="flex gap-4 relative">
-                <button
-                  onClick={() => deleteHandler(post._id)}
-                  className="absolute top-0 right-0 rounded-md bg-primary-greenpale"
-                >
-                  <GoTrash
-                    size={18}
-                    className="text-red-500 font-bold bg-primary-lightbold"
+            {data.post.length > 0 ? (
+              data?.posts.map((post, index) => (
+                <div key={post?._id} className="flex gap-4 relative">
+                  <button
+                    onClick={() => deleteHandler(post._id)}
+                    className="absolute top-0 right-0 rounded-md bg-primary-greenpale"
+                  >
+                    <GoTrash
+                      size={18}
+                      className="text-red-500 font-bold bg-primary-lightbold"
+                    />
+                  </button>
+                  <img
+                    src={post?.thumbnail}
+                    alt={post?.title}
+                    className="col-span-1 w-[140px] h-[80px] lg:w-[200px] lg:h-[120px] object-cover object-center"
                   />
-                </button>
-                <img
-                  src={post?.thumbnail}
-                  alt={post?.title}
-                  className="col-span-1 w-[140px] h-[80px] lg:w-[200px] lg:h-[120px] object-cover object-center"
-                />
-                <Link
-                  className="w-full min-w-0"
-                  to={`/${post.topic.slug}/${post.slug}`}
-                >
-                  <div>
-                    <p className="font-bold  text-primary-greenpale text-sm">
-                      {post?.topic.name}
-                    </p>
-
-                    <h2 className="mt-1 font-bold text-xl">
-                      {post?.title.length > 80
-                        ? `${post?.title.substring(0, 80)}...`
-                        : post?.title}
-                    </h2>
-                    <div className="flex gap-2 items-center mt-2">
-                      <p className="text-gray-500 text-xs font-bold">
-                        {dayjs(post?.createdAt).format("DD/MM/YYYY")}
+                  <Link
+                    className="w-full min-w-0"
+                    to={`/${post.topic.slug}/${post.slug}`}
+                  >
+                    <div>
+                      <p className="font-bold  text-primary-greenpale text-sm">
+                        {post?.topic.name}
                       </p>
+
+                      <h2 className="mt-1 font-bold text-xl">
+                        {post?.title.length > 80
+                          ? `${post?.title.substring(0, 80)}...`
+                          : post?.title}
+                      </h2>
+                      <div className="flex gap-2 items-center mt-2">
+                        <p className="text-gray-500 text-xs font-bold">
+                          {dayjs(post?.createdAt).format("DD/MM/YYYY")}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </div>
-            ))}
+                  </Link>
+                </div>
+              ))
+            ) : (
+              <>
+                <h1 className="font-bold text-xl text-center text-primary-bluebold mt-6 lg:mt-4">
+                  Không có bài viết!
+                </h1>
+              </>
+            )}
           </div>
           <div className="flex items-center justify-center gap-8 mt-4">
             <button

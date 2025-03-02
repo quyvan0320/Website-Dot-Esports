@@ -12,7 +12,6 @@ import {
 
   getPostsPaginationByUserId,
   getPostsPanigation,
-  updatePost,
 } from "../controllers/postController.js";
 
 const router = express.Router();
@@ -26,7 +25,6 @@ router.get("/panigation-post", getPostsPanigation);
 router.post("/", authenticate, authorizeRoles("author", "admin"), createPost);
 router.get("/", getPosts);
 router.get("/:slug", getOnePost);
-router.put("/:id", authenticate, authorizeRoles("author", "admin"), updatePost);
 router.delete(
   "/:id",
   authenticate,

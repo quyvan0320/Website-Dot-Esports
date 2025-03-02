@@ -33,10 +33,10 @@ const PostPage = () => {
   return (
     <div className="bg-primary-light">
       <img
-          className="lg:hidden w-full object-cover h-[400px] object-center"
-          src={post?.thumbnail || "/default-thumbnail.jpg"}
-          alt={post?.title || "Bài viết"}
-        />
+        className="lg:hidden w-full object-cover h-[400px] object-center"
+        src={post?.thumbnail || "/default-thumbnail.jpg"}
+        alt={post?.title || "Bài viết"}
+      />
       <div className="container px-4 py-6 lg:px-0 max-w-screen-xl mx-auto  font-roboto">
         <div>
           <p className="font-bold mt-1 text-primary-greenpale text-lg">
@@ -47,15 +47,14 @@ const PostPage = () => {
           </h1>
           <div className="flex-row lg:flex items-center gap-4 mt-2 relative">
             <div className="flex items-center gap-2 mb-2 lg:mb-0">
-
-            <img
-              className="w-[40px] h-[40px] rounded-full"
-              src={post?.author?.avatar || "/default-avatar.png"}
-              alt={post?.author?.username || "Tác giả"}
-            />
-            <p className="text-primary-bluebold font-bold text-sm">
-              {post?.author?.username || "Không rõ tác giả"}
-            </p>
+              <img
+                className="w-[40px] h-[40px] rounded-full"
+                src={post?.author?.avatar || "/default-avatar.png"}
+                alt={post?.author?.username || "Tác giả"}
+              />
+              <p className="text-primary-bluebold font-bold text-sm">
+                {post?.author?.username || "Không rõ tác giả"}
+              </p>
             </div>
             <p className="text-gray-600 font-light hidden lg:block">|</p>
             <p className="text-gray-600 font-light">
@@ -90,30 +89,41 @@ const PostPage = () => {
               BÀI VIẾT TƯƠNG TỰ
             </h1>
             <div className="space-y-6 mt-4">
-              {latestPost?.map((p) => (
-                <div key={p._id} className="flex gap-6">
-                  <img
-                    src={p.thumbnail}
-                    className="w-[160px] h-[100px] lg:w-[220px] lg:h-[100px] object-cover object-center "
-                    alt=""
-                  />
-                  <Link className="w-full min-w-0" to={`/${p.topic.slug}/${p.slug}`}>
-                    <div>
-                      <p className="font-bold text-primary-greenpale text-sm">
-                        {p?.topic?.name}
-                      </p>
-                      <p className="font-bold text-primary-bluebold text-[18px]">
-                        {p.title.length > 80
-                          ? `${p.title.substring(0, 80)}...`
-                          : p.title}
-                      </p>
-                      <p className="text-primary-bluebold mt-2 font-bold text-sm">
-                        {p?.author?.username || "Không rõ tác giả"}
-                      </p>
-                    </div>
-                  </Link>
-                </div>
-              ))}
+              {latestPost.length > 0 ? (
+                latestPost?.map((p) => (
+                  <div key={p._id} className="flex gap-6">
+                    <img
+                      src={p.thumbnail}
+                      className="w-[160px] h-[100px] lg:w-[220px] lg:h-[100px] object-cover object-center "
+                      alt=""
+                    />
+                    <Link
+                      className="w-full min-w-0"
+                      to={`/${p.topic.slug}/${p.slug}`}
+                    >
+                      <div>
+                        <p className="font-bold text-primary-greenpale text-sm">
+                          {p?.topic?.name}
+                        </p>
+                        <p className="font-bold text-primary-bluebold text-[18px]">
+                          {p.title.length > 80
+                            ? `${p.title.substring(0, 80)}...`
+                            : p.title}
+                        </p>
+                        <p className="text-primary-bluebold mt-2 font-bold text-sm">
+                          {p?.author?.username || "Không rõ tác giả"}
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                ))
+              ) : (
+                <>
+                  <h1 className="font-bold text-xl text-center text-primary-bluebold mt-6 lg:mt-4">
+                    Không có bài viết!
+                  </h1>
+                </>
+              )}
             </div>
           </div>
         </div>

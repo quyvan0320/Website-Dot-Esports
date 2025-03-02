@@ -35,51 +35,63 @@ const CategoryPost = () => {
             <MdOutlineWifiTethering size={26} className="text-gray-500" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
-            {posts?.map((post, index) => (
-              <div
-                key={post._id}
-                className={`${
-                  index === 0
-                    ? "md:col-span-1 md:row-span-3"
-                    : "md:col-span-1 flex flex-row-reverse gap-6"
-                }`}
-              >
-                <img
-                  src={post.thumbnail}
-                  alt={post.title}
-                  className={`object-cover object-center ${
-                    index === 0 ? " w-full h-[250px]  lg:h-[350px]" : "w-[200px] h-[80px] lg:w-[200px] lg:h-[130px]"
+            {posts.length > 0 ? (
+              posts?.map((post, index) => (
+                <div
+                  key={post._id}
+                  className={`${
+                    index === 0
+                      ? "md:col-span-1 md:row-span-3"
+                      : "md:col-span-1 flex flex-row-reverse gap-6"
                   }`}
-                />
-                <div>
-                  <Link
-                    className="w-full min-w-0"
-                    to={`/${post.topic.slug}/${post.slug}`}
-                  >
-                    <p className="font-bold  text-primary-greenpale text-sm lg:text-lg">
-                      {post.topic.name}
-                    </p>
-
-                    <h2
-                      className={`mt-1 font-bold ${
-                        index === 0 ? "text-lg lg:text-2xl " : "text-lg lg:text-[18px]"
-                      }`}
+                >
+                  <img
+                    src={post.thumbnail}
+                    alt={post.title}
+                    className={`object-cover object-center ${
+                      index === 0
+                        ? " w-full h-[250px]  lg:h-[350px]"
+                        : "w-[200px] h-[80px] lg:w-[200px] lg:h-[130px]"
+                    }`}
+                  />
+                  <div>
+                    <Link
+                      className="w-full min-w-0"
+                      to={`/${post.topic.slug}/${post.slug}`}
                     >
-                      {post.title}
-                    </h2>
-                    <div className="flex gap-2 items-center mt-2">
-                      <p className="font-bold text-sm text-primary-bluebold">
-                        {post.author.username}
+                      <p className="font-bold  text-primary-greenpale text-sm lg:text-lg">
+                        {post.topic.name}
                       </p>
-                      <p>·</p>
-                      <p className="text-gray-500 text-xs font-bold">
-                        {dayjs(post.createdAt).fromNow()}
-                      </p>
-                    </div>
-                  </Link>
+
+                      <h2
+                        className={`mt-1 font-bold ${
+                          index === 0
+                            ? "text-lg lg:text-2xl "
+                            : "text-lg lg:text-[18px]"
+                        }`}
+                      >
+                        {post.title}
+                      </h2>
+                      <div className="flex gap-2 items-center mt-2">
+                        <p className="font-bold text-sm text-primary-bluebold">
+                          {post.author.username}
+                        </p>
+                        <p>·</p>
+                        <p className="text-gray-500 text-xs font-bold">
+                          {dayjs(post.createdAt).fromNow()}
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <>
+                <h1 className="font-bold text-xl text-center text-primary-bluebold mt-6 lg:mt-4">
+                  Không có bài viết!
+                </h1>
+              </>
+            )}
           </div>
           <div className="mt-6 pb-6 lg:grid lg:gap-20 lg:grid-cols-[2.5fr_1.5fr]">
             <div>
@@ -87,39 +99,47 @@ const CategoryPost = () => {
                 TẤT CẢ
               </h1>
               <div className="space-y-6 mt-4">
-                {posts?.map((p) => (
-                  <div key={p._id} className="flex gap-6">
-                    <img
-                      src={p.thumbnail}
-                      className="w-[160px] h-[100px] md:w-[300px] md:h-[160px] lg:w-[260px] lg:h-[160px] object-cover object-center "
-                      alt=""
-                    />
-                    <Link
-                      className="w-full min-w-0"
-                      to={`/${p.topic.slug}/${p.slug}`}
-                    >
-                      <div>
-                        <p className="font-bold mt-0 text-sm lg:mt-4 text-primary-greenpale  lg:text-sm">
-                          {p?.topic?.name}
-                        </p>
-                        <p className="mt-1 text-[18px] font-bold lg:text-[18px] lg:mt-0  text-primary-bluebold">
-                          {p.title.length > 80
-                            ? `${p.title.substring(0, 80)}...`
-                            : p.title}
-                        </p>
-                        <div className="flex gap-4 lg:gap-6 items-center mt-2">
-                          <p className="font-bold text-[16px] lg:text-sm text-primary-bluebold">
-                            {p.author.username}
+                {posts.length > 0 ? (
+                  posts?.map((p) => (
+                    <div key={p._id} className="flex gap-6">
+                      <img
+                        src={p.thumbnail}
+                        className="w-[160px] h-[100px] md:w-[300px] md:h-[160px] lg:w-[260px] lg:h-[160px] object-cover object-center "
+                        alt=""
+                      />
+                      <Link
+                        className="w-full min-w-0"
+                        to={`/${p.topic.slug}/${p.slug}`}
+                      >
+                        <div>
+                          <p className="font-bold mt-0 text-sm  text-primary-greenpale  lg:text-sm">
+                            {p?.topic?.name}
                           </p>
+                          <p className="mt-1 text-[18px] font-bold lg:text-[18px] lg:mt-0  text-primary-bluebold">
+                            {p.title.length > 80
+                              ? `${p.title.substring(0, 80)}...`
+                              : p.title}
+                          </p>
+                          <div className="flex gap-4 lg:gap-6 items-center mt-2">
+                            <p className="font-bold text-[16px] lg:text-sm text-primary-bluebold">
+                              {p.author.username}
+                            </p>
 
-                          <p className="text-gray-500 text-xs lg:text-xs  font-bold">
-                            {dayjs(p.createdAt).format("DD/MM/YYYY")}
-                          </p>
+                            <p className="text-gray-500 text-xs lg:text-xs  font-bold">
+                              {dayjs(p.createdAt).format("DD/MM/YYYY")}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  </div>
-                ))}
+                      </Link>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <h1 className="font-bold text-xl text-center text-primary-bluebold mt-6 lg:mt-4">
+                      Không có bài viết!
+                    </h1>
+                  </>
+                )}
               </div>
             </div>
             <div className="mt-6 lg:mt-0 lg:block">
@@ -127,33 +147,41 @@ const CategoryPost = () => {
                 TƯƠNG TỰ
               </h1>
               <div className="space-y-6 mt-4">
-                {latestPost?.map((p, index) => (
-                  <div key={p._id} className="flex gap-6 items-center">
-                    <div className="w-[60px] flex justify-center">
-                      <p className="w-[40px] h-[40px] flex items-center justify-center rounded-full text-white bg-black font-bold">
-                        {index + 1}
-                      </p>
-                    </div>
-                    <Link
-                      to={`/${p.topic.slug}/${p.slug}`}
-                      className="w-full min-w-0"
-                    >
-                      <div>
-                        <p className="font-bold text-primary-greenpale text-sm">
-                          {p?.topic?.name}
-                        </p>
-                        <p className="font-extrabold text-black text-[20px] break-words">
-                          {p.title.length > 80
-                            ? `${p.title.substring(0, 80)}...`
-                            : p.title}
-                        </p>
-                        <p className="text-primary-bluebold mt-2 font-bold text-sm">
-                          {p?.author?.username || "Không rõ tác giả"}
+                {latestPost.length > 0 ? (
+                  latestPost?.map((p, index) => (
+                    <div key={p._id} className="flex gap-6 items-center">
+                      <div className="w-[60px] flex justify-center">
+                        <p className="w-[40px] h-[40px] flex items-center justify-center rounded-full text-white bg-black font-bold">
+                          {index + 1}
                         </p>
                       </div>
-                    </Link>
-                  </div>
-                ))}
+                      <Link
+                        to={`/${p.topic.slug}/${p.slug}`}
+                        className="w-full min-w-0"
+                      >
+                        <div>
+                          <p className="font-bold text-primary-greenpale text-sm">
+                            {p?.topic?.name}
+                          </p>
+                          <p className="font-extrabold text-black text-[20px] break-words">
+                            {p.title.length > 80
+                              ? `${p.title.substring(0, 80)}...`
+                              : p.title}
+                          </p>
+                          <p className="text-primary-bluebold mt-2 font-bold text-sm">
+                            {p?.author?.username || "Không rõ tác giả"}
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <h1 className="font-bold text-xl text-center text-primary-bluebold mt-6 lg:mt-4">
+                      Không có bài viết!
+                    </h1>
+                  </>
+                )}
               </div>
             </div>
           </div>

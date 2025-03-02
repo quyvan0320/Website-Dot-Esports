@@ -40,41 +40,14 @@ const getOnePost = asyncHandler(async (req, res) => {
   res.status(200).json(post);
 });
 
-const updatePost = asyncHandler(async (req, res) => {
-  const { title, thumbnail, content, topic } = req.body;
-
-  // Kiểm tra bài viết có tồn tại không
-  const post = await Post.findById(req.params.id);
-  if (!post) {
-    return res.status(404).json({ error: "Không tìm thấy bài viết." });
-  }
-
-  // Kiểm tra người dùng có phải là author của bài viết không
-  if (post.author.toString() !== req.user._id.toString()) {
-    return res
-      .status(403)
-      .json({ error: "Bạn không có quyền chỉnh sửa bài viết này." });
-  }
-
-  // Cập nhật chỉ những trường có giá trị (tránh cập nhật null hoặc undefined)
-  if (title) post.title = title;
-  if (thumbnail) post.thumbnail = thumbnail;
-  if (content) post.content = content;
-  if (topic) post.topic = topic;
-
-  // Lưu thay đổi
-  const updatedPost = await post.save();
-  res.status(200).json(updatedPost);
-});
 
 const deletePost = asyncHandler(async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (!post) {
     return res.status(404).json({ error: "Không tìm thấy bài viết." });
   }
-
-  // Kiểm tra người dùng có phải là author của bài viết không
-  if (post.author.toString() !== req.user._id.toString()) {
+ 
+  if (req.user.role !== "admin" && post.author.toString() !== req.user._id.toString()) {
     return res
       .status(403)
       .json({ error: "Bạn không có quyền xóa bài viết này." });
@@ -84,6 +57,7 @@ const deletePost = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Xóa bài viết thành công" });
 });
+
 
 const getLatestPost = asyncHandler(async (req, res) => {
   const posts = await Post.find({})
@@ -156,43 +130,42 @@ const getPostCategory = asyncHandler(async (req, res) => {
 });
 const getPostsPaginationByUserId = asyncHandler(async (req, res) => {
   const { page = 1, limit = 5, userId } = req.query;
-    const pageNum = parseInt(page);
-    const limitNum = parseInt(limit);
-    const skip = (pageNum - 1) * limitNum;
+  const pageNum = parseInt(page);
+  const limitNum = parseInt(limit);
+  const skip = (pageNum - 1) * limitNum;
 
-    if (!userId) {
-      return res.status(400).json({ message: "UserId là bắt buộc" });
-    }
+  if (!userId) {
+    return res.status(400).json({ message: "UserId là bắt buộc" });
+  }
 
-    // Kiểm tra user có tồn tại không
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "Không tìm thấy người dùng" });
-    }
+  // Kiểm tra user có tồn tại không
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.status(404).json({ message: "Không tìm thấy người dùng" });
+  }
 
-    // Lọc bài viết theo userId
-    const posts = await Post.find({ author: userId })
-      .sort({ createdAt: -1 }) // Sắp xếp bài viết mới nhất trước
-      .skip(skip)
-      .limit(limitNum)
-      .populate("author", "username email")
-      .populate("topic", "name slug");
+  // Lọc bài viết theo userId
+  const posts = await Post.find({ author: userId })
+    .sort({ createdAt: -1 }) // Sắp xếp bài viết mới nhất trước
+    .skip(skip)
+    .limit(limitNum)
+    .populate("author", "username email")
+    .populate("topic", "name slug");
 
-    // Đếm tổng số bài viết của user
-    const totalPosts = await Post.countDocuments({ author: userId });
+  // Đếm tổng số bài viết của user
+  const totalPosts = await Post.countDocuments({ author: userId });
 
-    res.json({
-      posts,
-      totalPages: Math.ceil(totalPosts / limitNum),
-      currentPage: pageNum,
-    });
+  res.json({
+    posts,
+    totalPages: Math.ceil(totalPosts / limitNum),
+    currentPage: pageNum,
+  });
 });
 
 export {
   createPost,
   getPosts,
   getOnePost,
-  updatePost,
   deletePost,
   getLatestPost,
   getFeaturedPosts,
