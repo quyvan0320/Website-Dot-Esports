@@ -39,7 +39,7 @@ const MyPost = () => {
 
         <div className="max-w-screen-lg mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
-            {data.post.length > 0 ? (
+            {data.posts?.length > 0 ? (
               data?.posts.map((post, index) => (
                 <div key={post?._id} className="flex gap-4 relative">
                   <button

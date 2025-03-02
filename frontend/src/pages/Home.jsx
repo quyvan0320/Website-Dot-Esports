@@ -34,7 +34,7 @@ const Home = () => {
       <div className="bg-primary-lightbold">
         <div className="container max-w-screen-xl mx-auto  font-roboto">
           <div className="grid lg:grid-cols-4  gap-10 lg:gap-6 p-4 lg:py-4">
-            {posts.length > 0 ? (
+            {posts?.length > 0 ? (
               posts?.map((post, index) => (
                 <div
                   key={post._id}
@@ -98,7 +98,7 @@ const Home = () => {
           </h1>
           <div className="overflow-x-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
-              {featuredPosts.length > 0 ? (
+              {featuredPosts?.length > 0 ? (
                 featuredPosts?.map((post) => (
                   <div key={post._id} className="min-w-[250px]">
                     <img

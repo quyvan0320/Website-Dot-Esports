@@ -35,7 +35,7 @@ const CategoryPost = () => {
             <MdOutlineWifiTethering size={26} className="text-gray-500" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
-            {posts.length > 0 ? (
+            {posts?.length > 0 ? (
               posts?.map((post, index) => (
                 <div
                   key={post._id}
@@ -99,7 +99,7 @@ const CategoryPost = () => {
                 TẤT CẢ
               </h1>
               <div className="space-y-6 mt-4">
-                {posts.length > 0 ? (
+                {posts?.length > 0 ? (
                   posts?.map((p) => (
                     <div key={p._id} className="flex gap-6">
                       <img
@@ -147,7 +147,7 @@ const CategoryPost = () => {
                 TƯƠNG TỰ
               </h1>
               <div className="space-y-6 mt-4">
-                {latestPost.length > 0 ? (
+                {latestPost?.length > 0 ? (
                   latestPost?.map((p, index) => (
                     <div key={p._id} className="flex gap-6 items-center">
                       <div className="w-[60px] flex justify-center">

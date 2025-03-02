@@ -89,7 +89,7 @@ const PostPage = () => {
               BÀI VIẾT TƯƠNG TỰ
             </h1>
             <div className="space-y-6 mt-4">
-              {latestPost.length > 0 ? (
+              {latestPost?.length > 0 ? (
                 latestPost?.map((p) => (
                   <div key={p._id} className="flex gap-6">
                     <img
