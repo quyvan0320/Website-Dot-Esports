@@ -21,7 +21,7 @@ const postSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-// Middleware tự động tạo slug trước khi lưu
+
 postSchema.pre("save", function (next) {
   if (this.isModified("title") && this.title) {
     this.slug = slugify(this.title, { lower: true, strict: true });

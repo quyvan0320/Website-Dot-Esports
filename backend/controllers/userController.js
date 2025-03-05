@@ -25,7 +25,7 @@ const register = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
 
-  // Tạo token và gửi cookie
+ 
   createToken(newUser._id, res);
 
   res.status(201).json({

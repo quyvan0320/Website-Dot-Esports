@@ -6,18 +6,18 @@ import Topic from "../models/topicModel.js";
 const createTopic = asyncHandler(async (req, res) => {
   const { category, name } = req.body;
 
-  // Kiểm tra nếu không có dữ liệu đầu vào
+ 
   if (!category || !name) {
     return res.status(400).json({ error: "Vui lòng nhập đầy đủ thông tin." });
   }
 
-  // Kiểm tra xem category có tồn tại không
+
   const existingCategory = await Category.findById(category);
   if (!existingCategory) {
     return res.status(404).json({ error: "Danh mục không tồn tại." });
   }
 
-  // Kiểm tra xem topic có bị trùng không
+
   const existingTopic = await Topic.findOne({ name });
   if (existingTopic) {
     return res.status(400).json({ error: "Topic này đã tồn tại." });
@@ -63,7 +63,7 @@ const updateTopic = asyncHandler(async (req, res) => {
     }
   }
 
-  // Kiểm tra xem topic name có bị trùng không
+
   if (name) {
     const existingTopic = await Topic.findOne({ name });
     if (
@@ -74,14 +74,14 @@ const updateTopic = asyncHandler(async (req, res) => {
     }
   }
 
-  // Cập nhật thông tin
+
   if (category) topic.category = category;
   if (name) {
     topic.name = name;
     topic.slug = slugify(name, { lower: true, strict: true });
   }
 
-  // Lưu vào database
+  
   await topic.save();
 
   res.status(200).json({

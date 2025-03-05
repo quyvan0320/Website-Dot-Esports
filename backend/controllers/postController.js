@@ -85,22 +85,22 @@ const getFeaturedPosts = async (req, res) => {
 
 const getPostsPanigation = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; // Trang hiện tại (mặc định là 1)
-    const limit = parseInt(req.query.limit) || 5; // Số bài viết mỗi trang (mặc định là 5)
-    const skip = (page - 1) * limit; // Bỏ qua số bài viết tương ứng với trang
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 5; 
+    const skip = (page - 1) * limit; 
 
     const posts = await Post.find()
-      .sort({ createdAt: 1 }) // Lấy bài mới nhất
-      .skip(skip) // Bỏ qua bài viết cũ
-      .limit(limit) // Lấy số bài theo limit
+      .sort({ createdAt: 1 }) 
+      .skip(skip)
+      .limit(limit) 
       .populate("author", "username email")
       .populate("topic", "name slug");
 
-    const totalPosts = await Post.countDocuments(); // Tổng số bài viết
+    const totalPosts = await Post.countDocuments();
 
     res.json({
       posts,
-      totalPages: Math.ceil(totalPosts / limit), // Tổng số trang
+      totalPages: Math.ceil(totalPosts / limit), 
       currentPage: page,
     });
   } catch (error) {
@@ -109,21 +109,19 @@ const getPostsPanigation = async (req, res) => {
 };
 
 const getPostCategory = asyncHandler(async (req, res) => {
-  const { categorySlug } = req.params; // Lấy slug từ URL
+  const { categorySlug } = req.params; 
 
-  // Tìm danh mục theo slug
   const category = await Category.findOne({ slug: categorySlug });
   if (!category) return res.status(404).json({ message: "Category not found" });
 
-  // Lấy danh sách topic thuộc category
+  
   const topics = await Topic.find({ category: category._id }).select("_id");
   const topicIds = topics.map((topic) => topic._id);
 
-  // Lấy 4 bài viết thuộc các topic đó
   const posts = await Post.find({ topic: { $in: topicIds } })
     .populate("author", "username")
     .populate("topic", "name slug")
-    .sort({ createdAt: -1 }) // Mới nhất trước
+    .sort({ createdAt: -1 }) 
     .limit(4);
 
   res.json(posts);
@@ -138,21 +136,20 @@ const getPostsPaginationByUserId = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "UserId là bắt buộc" });
   }
 
-  // Kiểm tra user có tồn tại không
   const user = await User.findById(userId);
   if (!user) {
     return res.status(404).json({ message: "Không tìm thấy người dùng" });
   }
 
-  // Lọc bài viết theo userId
+ 
   const posts = await Post.find({ author: userId })
-    .sort({ createdAt: -1 }) // Sắp xếp bài viết mới nhất trước
+    .sort({ createdAt: -1 }) 
     .skip(skip)
     .limit(limitNum)
     .populate("author", "username email")
     .populate("topic", "name slug");
 
-  // Đếm tổng số bài viết của user
+
   const totalPosts = await Post.countDocuments({ author: userId });
 
   res.json({

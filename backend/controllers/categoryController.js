@@ -27,17 +27,17 @@ const allCategoies = asyncHandler(async (req, res) => {
 const updateCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
-  // Kiểm tra danh mục có tồn tại không
+
   const category = await Category.findById(req.params.id);
   if (!category) {
     return res.status(404).json({ error: "Không tìm thấy danh mục" });
   }
 
-  // Cập nhật name và slug mới
+
   category.name = name;
   category.slug = slugify(name, { lower: true, strict: true });
 
-  // Lưu vào database
+
   await category.save();
 
   res.status(200).json(category);

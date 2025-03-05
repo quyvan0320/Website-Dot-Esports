@@ -7,7 +7,7 @@ const topicSchema = mongoose.Schema({
   slug: { type: String, unique: true },
 });
 
-// Tự động tạo slug trước khi lưu vào database
+
 topicSchema.pre("save", function (next) {
   if (this.isModified("name")) {
     this.slug = slugify(this.name, { lower: true, strict: true });
