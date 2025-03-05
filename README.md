@@ -60,7 +60,7 @@ Backend sẽ chạy trên Node.js mà không có `nodemon`.
 
 #  Công nghệ sử dụng
 
-- **Frontend**: React.js, Redux Toolkit, Redux Toolkit Query, Tailwind CSS
+- **Frontend**: React.js, Redux Toolkit, Redux Toolkit Query, Tailwind CSS, React Quill
 
 - **Backend**: Node.js, Express, MongoDB, Mongoose, JWT, Bcryptjs
 
